@@ -1,0 +1,76 @@
+.backdrop{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.431);
+    z-index: 1000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.form{
+    background-color: white;
+    padding: 45px;
+    border-radius: 12px;
+
+    width: 400px;
+    max-width: 90vw;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 32px;
+    height: 32px;
+
+    background-color: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+
+    font-size: 20px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.text{
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+    margin: 0 0 10px;
+}
+
+
+.input{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus{
+    outline: none;
+    border-color: #0891b2;
+}
+
+.send {
+    background-color: #0891b2;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
