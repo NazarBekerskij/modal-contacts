@@ -1,70 +1,41 @@
-import { Component } from "react";
-import style from "./Modal.module.css"
+import { createPortal } from "react-dom"
+const modalRoot = document.getElementById("root-modal")
 
-class Modal extends Component {
-  render() {
-    const {onToggleModal, onHandleInput, onSubmit, firstName, secondName, email, phone} = this.props
+import { useEffect } from "react"
 
-    return (
-      <div className={style.backdrop}>
-        <div>
-          <form onSubmit={onSubmit} className={style.form}>
+function Modal({ children, onClose }) {
 
-            <button 
-            onClick={onToggleModal}
-            className={style.close}
-            type="button"
-            >x
-            </button>
+useEffect(() => {
+  const handleKeyDown = (evt) => {
+    if (evt.key === "Escape") {
+      onClose()
+    }
+  }
 
-            <p className={style.text}>Додати контакт</p>
+  window.addEventListener("keydown", handleKeyDown)
 
-            <input 
-            type="text" 
-            className={style.input} 
-            placeholder="ведіть ваше імя"
-            value={firstName}
-            name="firstName"
-            onChange={onHandleInput}
-            />
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown)
+  }
+}, [onClose])
 
-            <input 
-            type="text" 
-            className={style.input} 
-            placeholder="ведіть ваше прізвище"
-            value={secondName}
-            name="secondName"
-            onChange={onHandleInput}
-            />
-
-            <input type="tel" 
-            className={style.input} 
-            placeholder="ведіть ваш номер телефону"
-            value={phone}
-            name="phone"
-            onChange={onHandleInput}
-            />
-
-            <input 
-            type="email" 
-            className={style.input} 
-            placeholder="ведіть вашу пошту"
-            value={email}
-            name="email"
-            onChange={onHandleInput}
-            />
-
-            <button 
-            type="submit" 
-            className={style.send}
-            >Зберегти контакт
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+  const handleBackdropClick = (evt) => {
+  if (evt.target === evt.currentTarget) {
+    onClose()
   }
 }
 
+  return  createPortal(
+    <div className="backdrop" onClick={handleBackdropClick}>
+      <div className="modal">
+        <button type="button" onClick={onClose}>
+          x
+        </button>
+
+        {children}
+      </div>
+    </div>, modalRoot
+  )
+}
 
 export default Modal
