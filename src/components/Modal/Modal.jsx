@@ -1,41 +1,39 @@
-import { createPortal } from "react-dom"
-const modalRoot = document.getElementById("root-modal")
-
-import { useEffect } from "react"
+import { createPortal } from "react-dom";
+import { useEffect } from "react";
 
 function Modal({ children, onClose }) {
-
-useEffect(() => {
-  const handleKeyDown = (evt) => {
-    if (evt.key === "Escape") {
-      onClose()
+  const handleBackDropClose = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
     }
-  }
+  };
 
-  window.addEventListener("keydown", handleKeyDown)
+ useEffect(() => {
+    const handleKeyDown = (event) => {
+        if (event.key === "Escape") {
+            onClose()
+        }
+    }
 
-  return () => {
-    window.removeEventListener("keydown", handleKeyDown)
-  }
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+        window.removeEventListener("keydown", handleKeyDown)
+    }
 }, [onClose])
 
-  const handleBackdropClick = (evt) => {
-  if (evt.target === evt.currentTarget) {
-    onClose()
-  }
-}
 
-  return  createPortal(
-    <div className="backdrop" onClick={handleBackdropClick}>
+  return createPortal(
+    <div className="backdrop" onClick={handleBackDropClose}>
       <div className="modal">
         <button type="button" onClick={onClose}>
           x
         </button>
-
         {children}
       </div>
-    </div>, modalRoot
-  )
+    </div>,
+    document.getElementById("root-modal"),
+  );
 }
 
-export default Modal
+export default Modal;

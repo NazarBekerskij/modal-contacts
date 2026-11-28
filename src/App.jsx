@@ -1,70 +1,66 @@
 import "./App.css";
 
+import { useState } from "react";
+
 import Title from "./components/Title/Title";
 import Button from "./components/Button/Button";
 import Modal from "./components/Modal/Modal";
 import ContactForm from "./components/ContactForm/ContactForm";
-import ContactFilter from "./components/ContactFilter/ContactFilter";
 import ContactList from "./components/ContactList/ContactList";
+import ContactFilter from "./components/ContactFilter/ContactFilter";
 
-import { useState } from "react";
-
-
-function App () {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
-      setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   const [contacts, setContacts] = useState([])
 
-  const handleAddContact = (newContact) => {
+  const onAddContact = (newContact) => {
     setContacts(prev => [...prev, newContact])
     handleCloseModal()
   }
-
-  const handleDeleteContacts = (contactsId) => {
-    setContacts(prev => 
-      prev.filter(item => item.id !== contactsId))
+  
+  const handleDelete = (contactId) => {
+    setContacts(prev => (
+      prev.filter(contact => contact.id !== contactId)
+    ))
   }
 
   const [filter, setFilter] = useState("")
 
-  const handleFilterChange = (value) => {
-    setFilter(value)
-  }
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value)
 
-  const filteredContacts = contacts.filter(item => 
-    item.firstName.toLowerCase().includes(filter.toLowerCase())
-    ||
-    item.secondName.toLowerCase().includes(filter.toLowerCase())
-  )
+   
+  } 
+
+   const filteredContacts = contacts.filter(contact => (
+       contact.firstName.toLowerCase().includes(filter.toLowerCase().trim())
+    ))
 
   return (
     <div>
-      <Title
-      text="Contacts App"
+      <Title text="Contacts" />
+      <Button onClick={handleOpenModal} text="+Add Contacts" />
+      <ContactFilter
+      value={filter}
+      onChange={handleFilterChange}
       />
-      <ContactFilter onFilter={handleFilterChange}/>
-      <Button
-      onClick={handleOpenModal}
-      text="+ Add Contact"
-      />
-
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <h2>Add Contact</h2>
-          <ContactForm onAddContact={handleAddContact}/>
+         <ContactForm onAddContact={onAddContact}/>
         </Modal>
       )}
-      <ContactList onDelete={handleDeleteContacts} contacts={filteredContacts}/>
+      <ContactList contacts={filteredContacts} onDelete={handleDelete}/>
     </div>
-  )
+  );
 }
 
 export default App;

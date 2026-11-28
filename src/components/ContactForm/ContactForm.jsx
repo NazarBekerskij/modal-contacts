@@ -2,27 +2,31 @@ import { nanoid } from "nanoid";
 import { useState } from "react";
 
 function ContactForm({onAddContact}) {
-  const [formData, setFormData] = useState({
+
+  const [formDate, setFormDate] = useState({
     firstName: "",
     secondName: "",
     phone: "",
     email: "",
-  })
+  });
 
-  const handleChange = (evt) => {
-    const {name, value} = evt.target
+  const handleChange = (e) => {
+    const {name, value} = e.target
 
-    setFormData(prev => ({...prev, [name]: value})) 
-  } 
+    setFormDate(prev => ({
+        ...prev,
+        [name]: value
+    }))
+  }
 
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     const newContact = {
-        id:nanoid(),
-        ...formData,
+        id: nanoid(),
+        ...formDate
     }
-    onAddContact(newContact)
+      onAddContact(newContact)
   }
 
   return (
@@ -30,34 +34,35 @@ function ContactForm({onAddContact}) {
       <input 
       type="text" 
       name="firstName" 
+      value={formDate.firstName} 
+      placeholder="First name"
       onChange={handleChange} 
-      value={formData.firstName} 
-      required
       />
       <input 
       type="text" 
       name="secondName" 
-      onChange={handleChange} 
-      value={formData.secondName} 
-      required
+      value={formDate.secondName} 
+      placeholder="Second name"
+      onChange={handleChange}
       />
       <input 
-      type="text" 
+      type="tel" 
       name="phone" 
-      onChange={handleChange} 
-      value={formData.phone} 
-      required
+      value={formDate.phone} 
+      placeholder="phone"
+      onChange={handleChange}
       />
       <input 
-      type="text" 
+      type="email" 
       name="email" 
-      onChange={handleChange} 
-      value={formData.email} 
-      required
+      value={formDate.email} 
+      placeholder="email"
+      onChange={handleChange}
       />
-      <button type="submit">Save Contact</button>
+      <button type="submit">Add Contact</button>
     </form>
   );
 }
 
-export default ContactForm;
+
+export default ContactForm

@@ -1,5 +1,5 @@
-function Button ({text, onClick}) {
-    return (
+function Button ({onClick, text}) {
+    return(
         <button onClick={onClick} type="button">{text}</button>
     )
 }

@@ -1,9 +1,10 @@
-function ContactFilter ({onFilter}) {
+function ContactFilter ({value, onChange}) {
     return (
         <input 
         type="text" 
-        placeholder="Search Contacts" 
-        onChange={(evt) => onFilter(evt.target.value)}
+        placeholder="Search contacts" 
+        value={value}
+        onChange={onChange}
         />
     )
 }
